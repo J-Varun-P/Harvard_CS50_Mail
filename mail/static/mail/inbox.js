@@ -43,6 +43,7 @@ function compose_email() {
   document.querySelector('#compose-body').value = '';
 }
 
+
 function load_mailbox(mailbox) {
 
   // Show the mailbox and hide other views
@@ -52,7 +53,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1) + ' test'}</h3>`;
   const div1 = document.createElement('div');
-  div1.id = 'sent-emails';
+  div1.id = `${mailbox}-email`;
   document.querySelector('#emails-view').appendChild(div1);
   let email_name = 'inbox';
   if(mailbox.localeCompare('inbox') === 0){
@@ -70,16 +71,47 @@ function load_mailbox(mailbox) {
     // Print emails
     console.log(emails);
 
-    if(email_name.localeCompare('sent') === 0){
-      const n = document.querySelector('#sent-emails');
+    if(email_name.localeCompare('inbox') === 0){
+      const n = document.querySelector(`#${mailbox}-email`);
       emails.forEach((item, i) => {
         const a = document.createElement('div');
         a.innerHTML = item.body;
-        a.innerHTML = `<p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p>`;
+        a.innerHTML = `<a href="#" class="lookhere"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
-
     }
+    else if(email_name.localeCompare('sent') === 0){
+      const n = document.querySelector(`#${mailbox}-email`);
+      emails.forEach((item, i) => {
+        const a = document.createElement('div');
+        const b = item.id;
+        console.log(`data value ${b}`)
+        a.innerHTML = item.body;
+        a.innerHTML = `<a href="#" class="lookhere" data-id=${b}><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        n.appendChild(a);
+      });
+    }
+    else{
+      const n = document.querySelector(`#${mailbox}-email`);
+      emails.forEach((item, i) => {
+        const a = document.createElement('div');
+        a.innerHTML = item.body;
+        a.innerHTML = `<a href="#" class="lookhere"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        n.appendChild(a);
+      });
+    }
+
+
+    let ab = document.querySelectorAll('.lookhere');
+    console.log(`Hello`);
+    console.log(`${ab} ${ab.length}`);
+    console.log(`Hello`);
+
+    document.querySelectorAll('.lookhere').forEach(a => {
+      a.onclick = () =>{
+        console.log(`My id is ${a.dataset.id}`);
+      }
+    });
 
     // ... do something else with emails ...
   });
