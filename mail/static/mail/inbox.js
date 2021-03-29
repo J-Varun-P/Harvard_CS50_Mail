@@ -75,8 +75,9 @@ function load_mailbox(mailbox) {
       const n = document.querySelector(`#${mailbox}-email`);
       emails.forEach((item, i) => {
         const a = document.createElement('div');
+        const b = item.id;
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="inbox"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -87,7 +88,7 @@ function load_mailbox(mailbox) {
         const b = item.id;
         console.log(`data value ${b}`)
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere" data-id=${b}><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="sent"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -95,8 +96,9 @@ function load_mailbox(mailbox) {
       const n = document.querySelector(`#${mailbox}-email`);
       emails.forEach((item, i) => {
         const a = document.createElement('div');
+        const b = item.id;
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="archive"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -109,7 +111,7 @@ function load_mailbox(mailbox) {
 
     document.querySelectorAll('.lookhere').forEach(a => {
       a.onclick = () =>{
-        console.log(`My id is ${a.dataset.id}`);
+        console.log(`My id is ${a.dataset.id} My Page is ${a.dataset.page}`);
       }
     });
 
