@@ -1,0 +1,27 @@
+textarea {
+    min-height: 400px;
+}
+
+.fc{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fc > *{
+  padding: 4px;
+}
+
+.a1{
+  font-weight: 500;
+  min-width: 30ch;
+}
+
+.a2{
+  min-width: 24ch;
+}
+
+.a3{
+  font-size: 14px;
+  font-style: italic;
+  margin-left: auto;
+}
