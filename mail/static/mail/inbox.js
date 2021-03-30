@@ -151,7 +151,7 @@ function load_mailbox(mailbox) {
             <p><span class="bold">Timestamp:</span> ${email.timestamp}</p>
             <a id="replyme" class="btn btn-sm btn-outline-primary">Reply</a>
             <hr>
-            <p>${email.body}</p>
+            <p id="email-full-view-body">${email.body}</p>
 
 
             `;
