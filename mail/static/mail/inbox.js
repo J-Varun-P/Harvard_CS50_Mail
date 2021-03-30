@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
       // Print result
       console.log(result);
   });
-  return false;
+  load_mailbox('inbox');
+  //return false;
   }
 
   // By default, load the inbox
@@ -42,6 +43,8 @@ function compose_email() {
   document.querySelector('#compose-recipients').value = '';
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
+
+  //load_mailbox('inbox'); Wow, seriousssssssssssssssly
 }
 
 
@@ -146,13 +149,33 @@ function load_mailbox(mailbox) {
             <p><span class="bold">To:</span> ${email.recipients}</p>
             <p><span class="bold">Subject:</span> ${email.subject}</p>
             <p><span class="bold">Timestamp:</span> ${email.timestamp}</p>
-            <a  class="btn btn-sm btn-outline-primary">Reply</a>
+            <a id="replyme" class="btn btn-sm btn-outline-primary">Reply</a>
             <hr>
             <p>${email.body}</p>
 
 
             `;
 
+            document.querySelector('#replyme').onclick = () =>{
+              console.log('clicked me');
+              compose_email();
+              document.querySelector('#compose-recipients').value = `${email.sender}`;
+              let subject1 = '';
+              let subject2 = `${email.subject}`.slice(0,3);
+              console.log(`${subject2}`);
+              if(subject2.localeCompare('Re:') == 0){
+                subject1 = '';
+              }
+              else{
+                subject1 = 'Re:';
+              }
+              document.querySelector('#compose-subject').value = `${subject1} ${email.subject}`;
+              document.querySelector('#compose-body').value = `On ${email.timestamp} ${email.sender} wrote
+
+${email.body}
+
+              `;
+            }
             if(mailbox.localeCompare('inbox') == 0){
             document.querySelector('#archiveme').onclick = () =>{
               fetch(`/emails/${a.dataset.id}`, {

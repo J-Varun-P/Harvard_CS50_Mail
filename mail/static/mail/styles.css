@@ -51,3 +51,11 @@ a, a:hover{
   position: relative;
   top: 4px;
 }
+
+#compose-body{
+  white-space: pre-wrap;
+}
+
+#email-full-vie{
+  white-space: pre-wrap;
+}
