@@ -49,6 +49,7 @@ function load_mailbox(mailbox) {
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
+  document.querySelector('#test').style.display = 'none';
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1) + ' test'}</h3>`;
@@ -111,7 +112,51 @@ function load_mailbox(mailbox) {
 
     document.querySelectorAll('.lookhere').forEach(a => {
       a.onclick = () =>{
+
+        fetch(`/emails/${a.dataset.id}`)
+        .then(response => response.json())
+        .then(email => {
+            // Print email
+            console.log(email);
+
+            // ... do something else with email ...
+
+            document.querySelector('#test').style.display = 'block';
+            console.log(`My id is ${a.dataset.id} My Page is ${a.dataset.page}`);
+            const div1 = document.createElement('div');
+            div1.id = `email-full-view`;
+            document.querySelector('#test').appendChild(div1);
+            document.querySelector('#emails-view').style.display = 'none';
+            document.querySelector('#email-full-view').innerHTML = `
+
+            <p><span class="bold">From:</span> ${email.sender}</p>
+            <p><span class="bold">To:</span> ${email.recipients}</p>
+            <p><span class="bold">Subject:</span> ${email.subject}</p>
+            <p><span class="bold">Timestamp:</span> ${email.timestamp}</p>
+            <hr>
+            <p>${email.body}</p>
+
+            `;
+
+        });
+
+        /*
         console.log(`My id is ${a.dataset.id} My Page is ${a.dataset.page}`);
+        const div1 = document.createElement('div');
+        div1.id = `email-full-view`;
+        document.querySelector('#emails-view').style.display = 'none';
+        document.querySelector('#email-full-view').innerHTML = `
+
+        <h3>From: ${email.sender}</h3>
+        <h3>To: ${email.recipients}</h3>
+        <h3>Subject: ${email.subject}</h3>
+        <h3>Timestamp: ${email.timestamp}</h3>
+        <hr>
+        <h3>${email.body}</h3>
+
+        `;
+        */
+
       }
     });
 
