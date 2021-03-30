@@ -35,6 +35,7 @@ function compose_email() {
 
   // Show compose view and hide other views
   document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#test').style.display = 'none';
   document.querySelector('#compose-view').style.display = 'block';
 
   // Clear out composition fields
@@ -78,7 +79,7 @@ function load_mailbox(mailbox) {
         const a = document.createElement('div');
         const b = item.id;
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="inbox"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a class="lookhere" data-id=${b} data-page="inbox"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -89,7 +90,7 @@ function load_mailbox(mailbox) {
         const b = item.id;
         console.log(`data value ${b}`)
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="sent"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a class="lookhere" data-id=${b} data-page="sent"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -99,7 +100,7 @@ function load_mailbox(mailbox) {
         const a = document.createElement('div');
         const b = item.id;
         a.innerHTML = item.body;
-        a.innerHTML = `<a href="#" class="lookhere" data-id=${b} data-page="archive"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
+        a.innerHTML = `<a class="lookhere" data-id=${b} data-page="archive"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
       });
     }
@@ -129,14 +130,22 @@ function load_mailbox(mailbox) {
             document.querySelector('#emails-view').style.display = 'none';
             document.querySelector('#email-full-view').innerHTML = `
 
+
+            <a id="goback" class="btn btn-sm btn-outline-primary">Back</a>
             <p><span class="bold">From:</span> ${email.sender}</p>
             <p><span class="bold">To:</span> ${email.recipients}</p>
             <p><span class="bold">Subject:</span> ${email.subject}</p>
             <p><span class="bold">Timestamp:</span> ${email.timestamp}</p>
+            <a  class="btn btn-sm btn-outline-primary">Reply</a>
             <hr>
             <p>${email.body}</p>
 
+
             `;
+
+            document.querySelector('#goback').onclick = () => {
+              load_mailbox(`${a.dataset.page}`);
+            }
 
         });
 

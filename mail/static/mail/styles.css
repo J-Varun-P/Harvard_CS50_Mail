@@ -41,3 +41,7 @@ a, a:hover{
   display: inline-block;
   min-width: 10ch;
 }
+
+.fc:hover{
+  cursor: pointer;
+}
