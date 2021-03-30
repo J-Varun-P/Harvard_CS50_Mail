@@ -128,10 +128,15 @@ function load_mailbox(mailbox) {
             div1.id = `email-full-view`;
             document.querySelector('#test').appendChild(div1);
             document.querySelector('#emails-view').style.display = 'none';
+            let is_it_inbox = '';
+            if(a.dataset.page.localeCompare('inbox') == 0){
+              is_it_inbox = '<a id="archiveme" class= "btn btn-sm btn-outline-primary">Archive</a>';
+            }
             document.querySelector('#email-full-view').innerHTML = `
 
 
             <a id="goback" class="btn btn-sm btn-outline-primary">Back</a>
+            ${is_it_inbox}
             <p><span class="bold">From:</span> ${email.sender}</p>
             <p><span class="bold">To:</span> ${email.recipients}</p>
             <p><span class="bold">Subject:</span> ${email.subject}</p>
