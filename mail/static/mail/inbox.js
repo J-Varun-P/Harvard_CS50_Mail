@@ -84,6 +84,12 @@ function load_mailbox(mailbox) {
         a.innerHTML = item.body;
         a.innerHTML = `<a class="lookhere" data-id=${b} data-page="inbox"><p class="fc"><span class="a1">${item.sender}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
+        let is_read = `${item.read}`;
+        console.log(is_read);
+        if(is_read.localeCompare('true') == 0){
+          a.style.background = 'gray';
+          a.style.color = 'white';
+        }
       });
     }
     else if(email_name.localeCompare('sent') === 0){
@@ -116,6 +122,14 @@ function load_mailbox(mailbox) {
 
     document.querySelectorAll('.lookhere').forEach(a => {
       a.onclick = () =>{
+
+
+        fetch(`/emails/${a.dataset.id}`, {
+        method: 'PUT',
+        body: JSON.stringify({
+            read: true
+        })
+      });
 
         fetch(`/emails/${a.dataset.id}`)
         .then(response => response.json())
