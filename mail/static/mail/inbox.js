@@ -129,14 +129,19 @@ function load_mailbox(mailbox) {
             document.querySelector('#test').appendChild(div1);
             document.querySelector('#emails-view').style.display = 'none';
             let is_it_inbox = '';
+            let is_it_archive = '';
             if(a.dataset.page.localeCompare('inbox') == 0){
               is_it_inbox = '<a id="archiveme" class= "btn btn-sm btn-outline-primary">Archive</a>';
+            }
+            if(a.dataset.page.localeCompare('archive') == 0){
+              is_it_archive = '<a id="unarchiveme" class= "btn btn-sm btn-outline-primary">Unarchive</a>';
             }
             document.querySelector('#email-full-view').innerHTML = `
 
 
             <a id="goback" class="btn btn-sm btn-outline-primary">Back</a>
             ${is_it_inbox}
+            ${is_it_archive}
             <p><span class="bold">From:</span> ${email.sender}</p>
             <p><span class="bold">To:</span> ${email.recipients}</p>
             <p><span class="bold">Subject:</span> ${email.subject}</p>
@@ -148,6 +153,30 @@ function load_mailbox(mailbox) {
 
             `;
 
+            if(mailbox.localeCompare('inbox') == 0){
+            document.querySelector('#archiveme').onclick = () =>{
+              fetch(`/emails/${a.dataset.id}`, {
+              method: 'PUT',
+              body: JSON.stringify({
+                  archived: true
+              })
+            });
+            console.log('archived');
+            load_mailbox('inbox');
+            }
+            }
+            if(mailbox.localeCompare('archive') == 0){
+            document.querySelector('#unarchiveme').onclick = () =>{
+              fetch(`/emails/${a.dataset.id}`, {
+              method: 'PUT',
+              body: JSON.stringify({
+                  archived: false
+              })
+            });
+            console.log('unarchived');
+            load_mailbox('inbox');
+            }
+            }
             document.querySelector('#goback').onclick = () => {
               load_mailbox(`${a.dataset.page}`);
             }

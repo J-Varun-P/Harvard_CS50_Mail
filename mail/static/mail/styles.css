@@ -46,7 +46,7 @@ a, a:hover{
   cursor: pointer;
 }
 
-#archiveme{
+#archiveme, #unarchiveme{
   float: right;
   position: relative;
   top: 4px;
