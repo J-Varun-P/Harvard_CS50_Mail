@@ -6,6 +6,32 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
+  console.log("see, i'm the reason");
+  // By default, load the inbox
+  load_mailbox('inbox');
+
+});
+
+
+function compose_email() {
+
+  load_mailbox('archive');
+
+  load_mailbox('sent');
+  console.log(`first compose ${count_test}`);
+
+  // Show compose view and hide other views
+  document.querySelector('#emails-view').style.display = 'none';
+  document.querySelector('#test').style.display = 'none';
+  document.querySelector('#compose-view').style.display = 'block';
+
+  // Clear out composition fields
+  document.querySelector('#compose-recipients').value = '';
+  document.querySelector('#compose-subject').value = '';
+  document.querySelector('#compose-body').value = '';
+
+  //load_mailbox('inbox'); Wow, seriousssssssssssssssly
+
   document.querySelector('#compose-form').onsubmit = () =>{
     const recipients = document.querySelector('#compose-recipients');
     const subject = document.querySelector('#compose-subject');
@@ -24,39 +50,26 @@ document.addEventListener('DOMContentLoaded', function() {
       // Print result
       console.log(result);
   });
-  load_mailbox('inbox');
-  //return false;
+  load_mailbox('sent');
+  return false;
   }
-
-  // By default, load the inbox
-  load_mailbox('inbox');
-});
-
-function compose_email() {
-
-  // Show compose view and hide other views
-  document.querySelector('#emails-view').style.display = 'none';
-  document.querySelector('#test').style.display = 'none';
-  document.querySelector('#compose-view').style.display = 'block';
-
-  // Clear out composition fields
-  document.querySelector('#compose-recipients').value = '';
-  document.querySelector('#compose-subject').value = '';
-  document.querySelector('#compose-body').value = '';
-
-  //load_mailbox('inbox'); Wow, seriousssssssssssssssly
 }
 
 
+let count_test = 0;
+
 function load_mailbox(mailbox) {
 
+  count_test++;
+  console.log(`count_test ${count_test}`);
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
   document.querySelector('#test').style.display = 'none';
 
   // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1) + ' test'}</h3>`;
+  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
   const div1 = document.createElement('div');
   div1.id = `${mailbox}-email`;
   document.querySelector('#emails-view').appendChild(div1);
@@ -73,7 +86,6 @@ function load_mailbox(mailbox) {
   fetch(`/emails/${email_name}`)
   .then(response => response.json())
   .then(emails => {
-    // Print emails
     console.log(emails);
 
     if(email_name.localeCompare('inbox') === 0){
@@ -114,16 +126,15 @@ function load_mailbox(mailbox) {
       });
     }
 
-
+    // for test purposes
     let ab = document.querySelectorAll('.lookhere');
     console.log(`Hello`);
     console.log(`${ab} ${ab.length}`);
     console.log(`Hello`);
+    // end of the test
 
     document.querySelectorAll('.lookhere').forEach(a => {
       a.onclick = () =>{
-
-
         fetch(`/emails/${a.dataset.id}`, {
         method: 'PUT',
         body: JSON.stringify({
@@ -134,10 +145,8 @@ function load_mailbox(mailbox) {
         fetch(`/emails/${a.dataset.id}`)
         .then(response => response.json())
         .then(email => {
-            // Print email
-            console.log(email);
 
-            // ... do something else with email ...
+            console.log(email);
 
             document.querySelector('#test').style.display = 'block';
             console.log(`My id is ${a.dataset.id} My Page is ${a.dataset.page}`);
@@ -170,6 +179,7 @@ function load_mailbox(mailbox) {
 
             `;
 
+            // reply to the mail
             document.querySelector('#replyme').onclick = () =>{
               console.log('clicked me');
               compose_email();
@@ -190,6 +200,7 @@ ${email.body}
 
               `;
             }
+            // archive mails
             if(mailbox.localeCompare('inbox') == 0){
             document.querySelector('#archiveme').onclick = () =>{
               fetch(`/emails/${a.dataset.id}`, {
@@ -202,6 +213,7 @@ ${email.body}
             load_mailbox('inbox');
             }
             }
+            //unarchive mails
             if(mailbox.localeCompare('archive') == 0){
             document.querySelector('#unarchiveme').onclick = () =>{
               fetch(`/emails/${a.dataset.id}`, {
@@ -220,26 +232,8 @@ ${email.body}
 
         });
 
-        /*
-        console.log(`My id is ${a.dataset.id} My Page is ${a.dataset.page}`);
-        const div1 = document.createElement('div');
-        div1.id = `email-full-view`;
-        document.querySelector('#emails-view').style.display = 'none';
-        document.querySelector('#email-full-view').innerHTML = `
-
-        <h3>From: ${email.sender}</h3>
-        <h3>To: ${email.recipients}</h3>
-        <h3>Subject: ${email.subject}</h3>
-        <h3>Timestamp: ${email.timestamp}</h3>
-        <hr>
-        <h3>${email.body}</h3>
-
-        `;
-        */
-
       }
     });
 
-    // ... do something else with emails ...
   });
   }
