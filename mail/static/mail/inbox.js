@@ -50,13 +50,14 @@ function compose_email() {
       // Print result
       console.log(result);
   });
-
+/* for testing
   let wait = 0;
   for(wait = 0; wait < 100000000; wait++){
     if (wait === 999){
       console.log('wait');
     }
   }
+*/
   load_mailbox('sent');
   return false;
   }
@@ -221,12 +222,13 @@ ${email.body}
             console.log('archived');
             //load_mailbox('sent');
             // I'm intentionally waiting here to have views.py update database before i load inbox
+            /*
             let wait = 0;
             for(wait = 0; wait < 10000000; wait++){
               if (wait === 999){
                 console.log('wait');
               }
-            }
+            }*/
             load_mailbox('inbox');
             }
             }
@@ -242,12 +244,13 @@ ${email.body}
             console.log('unarchived');
             //load_mailbox('sent');
             // I'm intentionally waiting here to have views.py update database before i load inbox
+            /*
             let wait = 0;
             for(wait = 0; wait < 10000000; wait++){
               if (wait === 999){
                 console.log('wait');
               }
-            }
+            }*/
             load_mailbox('inbox');
             }
             }
