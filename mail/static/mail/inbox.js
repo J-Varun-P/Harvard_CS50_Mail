@@ -30,7 +30,7 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
 
-  //load_mailbox('inbox'); Wow, seriousssssssssssssssly
+  //load_mailbox('inbox');
 
   document.querySelector('#compose-form').onsubmit = () =>{
     const recipients = document.querySelector('#compose-recipients');
@@ -50,6 +50,13 @@ function compose_email() {
       // Print result
       console.log(result);
   });
+
+  let wait = 0;
+  for(wait = 0; wait < 100000000; wait++){
+    if (wait === 999){
+      console.log('wait');
+    }
+  }
   load_mailbox('sent');
   return false;
   }
@@ -123,6 +130,8 @@ function load_mailbox(mailbox) {
         a.innerHTML = item.body;
         a.innerHTML = `<a class="lookhere" data-id=${b} data-page="archive"><p class="fc"><span class="a1">${item.recipients}</span><span class="a2">${item.subject}</span><span class="a3">${item.timestamp}</span></p></a>`;
         n.appendChild(a);
+        a.style.background = 'gray';
+        a.style.color = 'white';
       });
     }
 
@@ -210,6 +219,14 @@ ${email.body}
               })
             });
             console.log('archived');
+            //load_mailbox('sent');
+            // I'm intentionally waiting here to have views.py update database before i load inbox
+            let wait = 0;
+            for(wait = 0; wait < 10000000; wait++){
+              if (wait === 999){
+                console.log('wait');
+              }
+            }
             load_mailbox('inbox');
             }
             }
@@ -223,6 +240,14 @@ ${email.body}
               })
             });
             console.log('unarchived');
+            //load_mailbox('sent');
+            // I'm intentionally waiting here to have views.py update database before i load inbox
+            let wait = 0;
+            for(wait = 0; wait < 10000000; wait++){
+              if (wait === 999){
+                console.log('wait');
+              }
+            }
             load_mailbox('inbox');
             }
             }
